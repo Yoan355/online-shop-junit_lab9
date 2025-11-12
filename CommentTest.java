@@ -1,5 +1,4 @@
 
-
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,13 +10,22 @@ import org.junit.jupiter.api.Test;
  * @author  (your name)
  * @version (a version number or a date)
  */
-public class CommentTest
+public class CommentTest 
+
+
 {
+   
+    private Comment comment;
+    
+    
+    
     /**
      * Default constructor for test class CommentTest
      */
     public CommentTest()
+    
     {
+           
     }
 
     /**
@@ -28,6 +36,11 @@ public class CommentTest
     @BeforeEach
     public void setUp()
     {
+            comment = new Comment("Yoan", "Great item", 5);
+            //creating new Comment object with Author,text,rating,ensures each test starts with 
+            //fresh comment
+
+
     }
 
     /**
@@ -38,5 +51,62 @@ public class CommentTest
     @AfterEach
     public void tearDown()
     {
+
+        comment= null; // it clears the comment variable to clean up memory.
+
     }
+
+   @Test
+   public void testAuthorStoredCorrectly() {
+        assertEquals("Yoan" , comment.getAuthor());
+        //should return "Yoan"
+    
+
+}
+
+
+
+
+@Test
+public void testRatingStoredCorrectly(){
+
+
+
+assertEquals(5, comment.getRating());
+
+
+}
+
+
+
+@Test
+public void testInitialVoteCountIsZero(){
+
+assertEquals(0,comment.getVoteCount());
+
+}
+
+
+
+@Test
+public void testUpVote(){
+
+comment.upvote();
+assertEquals(1,comment.getVoteCount()); //this tests that calling upvote() increases the vote count by 1.
+
+
+
+}
+
+
+@Test
+public void testDownvoteDecreasesVoteCount()
+
+{
+    
+
+comment.downvote();
+assertEquals(-1,comment.getVoteCount());
+
+}
 }

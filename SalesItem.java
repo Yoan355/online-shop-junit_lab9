@@ -14,7 +14,7 @@ import java.util.Iterator;
  */
 public class SalesItem
 {
-    private String name;
+    public String name;
     private int price;  // in cents
     private ArrayList<Comment> comments;
     
