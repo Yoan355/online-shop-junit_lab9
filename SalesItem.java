@@ -23,7 +23,7 @@ public class SalesItem
     public String name;
     private int price;  // in cents
     private ArrayList<Comment> comments;
-    
+
     /**
      * Create a new sales item.
      */
@@ -41,7 +41,7 @@ public class SalesItem
     {
         return name;
     }
-    
+
     /**
      * Return the price of this item.
      */
@@ -49,7 +49,7 @@ public class SalesItem
     {
         return price;
     }
-    
+
     /**
      * Return the number of customer comments for this item.
      */
@@ -57,7 +57,7 @@ public class SalesItem
     {
         return comments.size();
     }
-    
+
     /**
      * Add a comment to the comment list of this sales item. Return true if
      * successful; false if the comment was rejected.
@@ -71,15 +71,15 @@ public class SalesItem
         if(ratingInvalid(rating)) {  // reject invalid ratings
             return false;
         }
-        
+
         if(findCommentByAuthor(author) != null) {  // reject mutiple comments 
             return false;                          // by same author
         }
-        
+
         comments.add(new Comment(author, text, rating));
         return true;
     }
-    
+
     /**
      * Remove the comment stored at the index given. If the index is invalid,
      * do nothing.
@@ -90,7 +90,7 @@ public class SalesItem
             comments.remove(index);
         }
     }
-    
+
     /**
      * Upvote the comment at 'index'. That is: count this comment as more 
      * helpful. If the index is invalid, do nothing.
@@ -101,7 +101,7 @@ public class SalesItem
             comments.get(index).upvote();
         }
     }
-    
+
     /**
      * Downvote the comment at 'index'. That is: count this comment as less 
      * helpful. If the index is invalid, do nothing.
@@ -112,7 +112,7 @@ public class SalesItem
             comments.get(index).downvote();
         }
     }
-    
+
     /**
      * Show all comments on screen. (Currently, for testing purposes: print to
      * the terminal. Modify later for web display.)
@@ -123,34 +123,43 @@ public class SalesItem
         System.out.println("Price: " + priceString(price));
         System.out.println();
         System.out.println("Customer comments:");
-        for(Comment comment : comments) {
+        int i = 0;
+        while (i < comments.size()) {
             System.out.println("-------------------------------------------");
-            System.out.println(comment.getFullDetails());
+            System.out.println(comments.get(i).getFullDetails());
+            i++;
         }
+
         System.out.println();
         System.out.println("===========================================");
     }
-    
+
     /**
      * Return the most helpful comment. The most useful comment is the one with
      * the highest vote balance. If there are multiple comments with equal 
      * highest balance, return any one of them.
      */
     @Test
-    
-    public Comment findMostHelpfulComment()
-    {
-        Iterator<Comment> it = comments.iterator();
-        Comment best = it.next();
-        while(it.hasNext()) {
-            Comment current = it.next();
-            if(current.getVoteCount() > best.getVoteCount()) {
+
+    public Comment findMostHelpfulComment() {
+        if (comments.isEmpty()) {
+            return null;
+        }
+
+        int i = 1;
+        Comment best = comments.get(0);
+
+        while (i < comments.size()) {
+            Comment current = comments.get(i);
+            if (current.getVoteCount() > best.getVoteCount()) {
                 best = current;
             }
+            i++;
         }
+
         return best;
     }
-    
+
     /**
      * Check whether the given rating is invalid. Return true if it is invalid.
      * Valid ratings are in the range [1..5].
@@ -159,21 +168,23 @@ public class SalesItem
     {
         return rating < 0 || rating > 5;
     }
-    
+
     /**
      * Find the comment by the author with the given name.
      * @return The comment if it exists; null if it doesn't.
      */
     private Comment findCommentByAuthor(String author)
     {
-        for(Comment comment : comments) {
-            if(comment.getAuthor().equals(author)) {
-                return comment;
+        int i = 0;
+        while (i < comments.size()) {
+            if (comments.get(i).getAuthor().equals(author)) {
+                return comments.get(i);
             }
+            i++;
         }
         return null;
     }
-    
+
     /**
      * For a price given as an int, return a readable String representing the 
      * same price. The price is given in whole cents. For example for 
