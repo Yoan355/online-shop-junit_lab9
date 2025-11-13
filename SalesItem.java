@@ -1,5 +1,11 @@
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import java.util.List;
 
 /**
  * The class represents sales items on an online e-commerce site. SalesItem 
@@ -130,6 +136,8 @@ public class SalesItem
      * the highest vote balance. If there are multiple comments with equal 
      * highest balance, return any one of them.
      */
+    @Test
+    
     public Comment findMostHelpfulComment()
     {
         Iterator<Comment> it = comments.iterator();

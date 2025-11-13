@@ -3,6 +3,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+
 /**
  * The test class SalesItemTest.
  *
@@ -11,6 +12,8 @@ import org.junit.Test;
  */
 public class SalesItemTest
 {
+    
+    private SalesItem item;
     /**
      * Default constructor for test class SalesItemTest
      */
@@ -26,7 +29,53 @@ public class SalesItemTest
     @Before
     public void setUp()
     {
+        item = new SalesItem("Iphone",3000);
     }
+    
+    
+    @Test 
+    public void testFindMostHelpfulCommentWithNoComments(){
+    
+    Comment result = item.findMostHelpfulComment();
+    assertNull(result); //expecting null
+    
+    
+    }
+    
+    
+        @Test
+    public void testFindMostHelpfulCommentWithOneComment() {
+        item.addComment("Yoan", "Great laptop", 5);
+        Comment result = item.findMostHelpfulComment();
+        assertNotNull(result); // Should not be null
+        assertEquals("Yoan", result.getAuthor()); // Should be Yoan's comment
+    }
+    
+    
+    
+    @Test
+    public void testFindMostHelpfulCommentWithMultipleComments() {
+        item.addComment("Yoan", "Great laptop!", 5);       // votes = 0
+        item.addComment("Bob", "Decent value.", 4);         // votes = 0
+        item.addComment("Charlie", "Not impressed.", 2);    // votes = 0
+
+        // Upvote Bob's comment twice
+        item.upvoteComment(1);
+        item.upvoteComment(1);
+
+        // Upvote Yoan's comment once
+        item.upvoteComment(0);
+
+        // Downvote Charlie's comment once
+        item.downvoteComment(2);
+
+        Comment result = item.findMostHelpfulComment();
+        assertNotNull(result); // Should return a comment
+        assertEquals("Bob", result.getAuthor()); // Bob has highest vote count (2)
+    }
+
+
+
 
     /**
      * Tears down the test fixture.
